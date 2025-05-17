@@ -1,0 +1,54 @@
+import { TaskInput } from "../interfaces/task.input.js";
+import TaskModel from "../models/task.model.js";
+
+const sampleTasks: TaskInput[] = [
+  {
+    title: "Finish project documentation",
+    description: "Complete the README and setup guides",
+    priority: "high",
+    status: "in progress",
+    dueDate: new Date("2025-05-20"),
+    completed: false,
+  },
+  {
+    title: "Fix login bug",
+    description: "Users are unable to login with Google OAuth",
+    priority: "medium",
+    status: "pending",
+    dueDate: new Date("2025-05-18"),
+    completed: false,
+  },
+  {
+    title: "Team meeting",
+    description: "Discuss project milestones and deadlines",
+    priority: "low",
+    status: "done",
+    dueDate: new Date("2025-05-10"),
+    completed: true,
+  },
+  {
+    title: "Implement task filtering",
+    description: "Add feature to filter tasks by priority and status",
+    priority: "medium",
+    status: "pending",
+    dueDate: new Date("2025-05-25"),
+    completed: false,
+  },
+  {
+    title: "Code review",
+    description: "Review PRs for the new task manager module",
+    priority: "high",
+    status: "in progress",
+    dueDate: new Date("2025-05-19"),
+    completed: false,
+  },
+];
+
+export class TaskRepository {
+
+  findAll(): TaskInput[] | null{
+    const tasks = TaskModel.find();
+    return sampleTasks;
+  }
+}
+``
