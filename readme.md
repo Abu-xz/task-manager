@@ -1,32 +1,35 @@
 🛠️ Setup Instructions
+
 1. Clone the repo
- 
-git clone https://github.com/yourusername/task-manager-api.git
+
+git clone: https://github.com/Abu-xz/task-manager.git
 
 cd task-manager-api
 
 2. Install dependencies
-npm install
- 
+   npm install
+
 3. Run in development mode
-npm run dev
+   npm run dev
 
 4. Build TypeScript to JavaScript
-npm run build
+   npm run build
 
 5. Start production server
-npm start
-
+   npm start
 
 ✅ Features
- TypeScript support
 
- Express server setup
+Frontend React with Typescript
 
- Task CRUD API
+TypeScript support
 
- Repository architecture
+Express server setup
 
- Modular, clean folder structure
+Task CRUD API
 
- Easy to scale
+Repository architecture
+
+Modular, clean folder structure
+
+Easy to scale
