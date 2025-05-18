@@ -1,12 +1,55 @@
 import type React from "react";
-// import { TaskData } from "../interfaces/TaskData";
-
+import { useState } from "react";
+import type { TaskData } from "../interfaces/TaskData";
 
 interface TaskFormProp {
-  closeModal: () => void
+  closeModal: () => void;
 }
 
 const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
+  const [formData, setFormData] = useState<TaskData>({
+    title: "",
+    description: "",
+    priority: "low",
+    dueDate: "",
+  });
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      title: event.target.value,
+    }));
+  };
+
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      description: e.target.value,
+    }));
+  };
+
+  const handlePriorityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      priority: e.target.value as 'low'| 'medium'| 'high'
+    }))
+  }
+
+  const handleSubmit = () => {
+    console.log('form data: ',formData)
+    
+    // create api and add new task
+
+    setFormData({ 
+    title: "",
+    description: "",
+    priority: "low",
+    dueDate: "",
+  })
+  };
+
   return (
     // container
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
@@ -34,6 +77,8 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
             type="text"
             className="p-3 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
             placeholder="Enter task title"
+            value={formData.title}
+            onChange={handleTitleChange}
           />
         </div>
 
@@ -44,12 +89,18 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
           <textarea
             className="p-3 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
             placeholder="Enter task description"
+            value={formData.description}
+            onChange={handleDescriptionChange}
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <label className="text-sm font-semibold ">Priority</label>
-          <select className="p-3 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none">
+          <select
+            className="p-3 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
+            value={formData.priority}
+            onChange={handlePriorityChange}
+          >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
@@ -62,12 +113,14 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
           <button
             type="button"
             className="border-slate-200 border-2 text-slate-600 px-3 py-1 rounded-md cursor-pointer hover:bg-slate-200 transition"
+            onClick={closeModal}
           >
             Cancel
           </button>
           <button
             type="button"
             className="bg-violet-400 text-white px-3 py-1 rounded-md cursor-pointer hover:bg-violet-500 transition"
+            onClick={handleSubmit}
           >
             Create
           </button>
