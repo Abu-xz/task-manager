@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import type { Task } from "../interfaces/Task";
+import { Check } from "lucide-react";
 
 const TaskCard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -14,7 +15,7 @@ const TaskCard = () => {
         setTasks(response.data);
       } catch (error) {
         console.log("error", error);
-      }finally{
+      } finally {
         setIsLoading(false);
       }
     };
@@ -22,9 +23,7 @@ const TaskCard = () => {
     fetchTasks();
   }, []);
 
-  const handleClick = () => {};
-
-  if(isLoading) return <h1>Loading...</h1>
+  if (isLoading) return <h1>Loading...</h1>;
 
   return tasks.map((task) => (
     <div
@@ -32,20 +31,26 @@ const TaskCard = () => {
       className="bg-white rounded-md p-4 w-full sm:w-96 min-h-28 shadow-md space-y-2"
     >
       <div className="flex justify-between ">
-        <div className="flex space-x-3 items-center">
+        <div className="flex space-x-3 items-center ">
           <button
-            className="w-5 h-5 rounded-full border-2 border-gray-400 bg-purple-300 cursor-pointer"
-            onClick={handleClick}
-          ></button>
+            className={`${
+              task.completed ? "bg-violet-400 w-6 h-6" : "w-6 h-6"
+            } rounded-full border-2 border-gray-400 cursor-pointer relative `}
+          >
+            {task.completed && <Check size={14} className="absolute left-1 top-1"></Check>}
+          </button>
+
           <h1 className="font-semibold text-lg">{task.title}</h1>
         </div>
-        <button className={`py-1 px-3 rounded-full text-sm font-medium ${
-            task.priority === 'low'?
-            'bg-cyan-200 text-cyan-700':
-            task.priority === 'medium'? 
-            'bg-yellow-200 text-amber-700' :
-            'bg-red-200 text-red-700'
-        }`}>
+        <button
+          className={`py-1 px-3 rounded-full text-sm font-medium ${
+            task.priority === "low"
+              ? "bg-cyan-200 text-cyan-700"
+              : task.priority === "medium"
+              ? "bg-yellow-200 text-amber-700"
+              : "bg-red-200 text-red-700"
+          }`}
+        >
           {task.priority[0].toUpperCase() + task.priority.slice(1)}
         </button>
       </div>
@@ -57,7 +62,7 @@ const TaskCard = () => {
             month: "long",
             day: "numeric",
             hour: "numeric",
-             minute: "2-digit", 
+            minute: "2-digit",
           })}
         </span>
         <select

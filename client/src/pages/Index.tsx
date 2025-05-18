@@ -8,12 +8,14 @@ import TaskForm from "../components/TaskForm";
 const Index = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  
   return (
     <>
       {/* Header */}
-      <Header openModal={() => setIsOpen(prev => !prev)}/>
-      {isOpen && <TaskForm closeModal={() => setIsOpen(prev => !prev)}/>}
+      <Header openModal={() => setIsOpen((prev) => !prev)} />
+
+      {/* Form Modal */}
+      {isOpen && <TaskForm closeModal={() => setIsOpen((prev) => !prev)} />}
+
       <main className="px-10 py-8 bg-gray-100 min-h-screen space-y-10">
         {/* Task Overview cards */}
         <StatsCard />
