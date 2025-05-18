@@ -1,19 +1,24 @@
+import { useState } from "react";
 import Header from "../components/Header";
 import StatsCard from "../components/StatsCard";
 import TaskCard from "../components/TaskCard";
 import TaskFilterBar from "../components/TaskFilterBar";
+import TaskForm from "../components/TaskForm";
 
 const Index = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  
   return (
     <>
       {/* Header */}
-      <Header />
-
+      <Header openModal={() => setIsOpen(prev => !prev)}/>
+      {isOpen && <TaskForm closeModal={() => setIsOpen(prev => !prev)}/>}
       <main className="px-10 py-8 bg-gray-100 min-h-screen space-y-10">
         {/* Task Overview cards */}
         <StatsCard />
 
-        {/* Filter buttons */}
+        {/* Filter Bar */}
         <TaskFilterBar />
 
         {/* Task List */}
@@ -21,7 +26,6 @@ const Index = () => {
           <TaskCard />
         </div>
       </main>
-
       <footer className="bg-purple-700 text-white py-6">
         <div className="flex justify-center items-center">
           <p className="text-sm">

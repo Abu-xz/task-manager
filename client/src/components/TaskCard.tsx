@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import type { Task } from "../interfaces/task";
+import type { Task } from "../interfaces/Task";
 
 const TaskCard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
