@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { ITaskDocument } from "../interfaces/task.document.js";
 
 
@@ -37,6 +37,6 @@ const taskSchema = new Schema<ITaskDocument>(
   { timestamps: true }
 );
 
-const TaskModel = mongoose.model<ITaskDocument>("Task", taskSchema);
+const TaskModel = mongoose.model<ITaskDocument>("tasks", taskSchema);
 
 export default TaskModel;

@@ -1,12 +1,15 @@
+import { TaskInput } from "../interfaces/task.input.js";
 import { TaskRepository } from "../repositories/task.repository.js";
 
 export class TaskService {
   constructor(private readonly taskRepository = new TaskRepository()) {}
 
-  getTasks() {
-    const tasks = this.taskRepository.findAll();
-    const mediumTask = tasks?.filter(task => task.priority === 'medium');
+ async getTasks() {
+    return this.taskRepository.findAll();
+  }
 
-    return mediumTask;
+  async addTask(task: TaskInput) {
+    // business logic here - validation , filtering like that 
+    return this.taskRepository.create(task);
   }
 }

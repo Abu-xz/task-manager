@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 export const logger = (req: Request, res: Response, next: NextFunction) => {
-  console.log("route reached logger method triggered");
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] method: ${req.method}, Url: ${req.originalUrl}, Body: ${req.body}`);
   next();
 };

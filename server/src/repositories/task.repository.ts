@@ -1,7 +1,8 @@
+import { ITaskDocument } from "../interfaces/task.document.js";
 import { TaskInput } from "../interfaces/task.input.js";
 import TaskModel from "../models/task.model.js";
 
-const sampleTasks: TaskInput[] = [
+ [
   {
     title: "Finish project documentation",
     description: "Complete the README and setup guides",
@@ -41,14 +42,15 @@ const sampleTasks: TaskInput[] = [
     status: "in progress",
     dueDate: new Date("2025-05-19"),
     completed: false,
-  },
-];
+  }]
 
 export class TaskRepository {
+  async findAll(): Promise<ITaskDocument[]> {
+    return await TaskModel.find();
+  }
 
-  findAll(): TaskInput[] | null{
-    const tasks = TaskModel.find();
-    return sampleTasks;
+  async create(task: TaskInput): Promise<ITaskDocument> {
+    const newTask = new TaskModel(task);
+    return newTask.save();
   }
 }
-``

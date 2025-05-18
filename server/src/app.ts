@@ -11,14 +11,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(logger);
 
 //Route
-app.use("/tasks", logger, taskRouter);
+app.use("/task", taskRouter);
 
 connectDb()
   .then(() => {
     app.listen(PORT, () => {
-      console.log("server running on port ", PORT);
+      console.log("server running on port", PORT);
     });
   })
   .catch((error) => {
