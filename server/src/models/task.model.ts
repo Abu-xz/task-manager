@@ -20,7 +20,7 @@ const taskSchema = new Schema<ITaskDocument>(
     },
     status: {
       type: String,
-       enum: ["pending", "in progress", "done"],
+       enum: ["pending", "inprogress", "done"],
        default: 'pending',
        required: false
     },
