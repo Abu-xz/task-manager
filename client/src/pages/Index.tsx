@@ -7,6 +7,26 @@ import TaskForm from "../components/TaskForm";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [taskFilter, setTaskFilter] = useState("all");
+
+  const handleFilterButton = (type: string) => {
+    switch (type) {
+      case "all":
+        setTaskFilter("all");
+        break;
+      case "todo":
+        setTaskFilter("todo");
+        break;
+      case "inprogress":
+        setTaskFilter("inprogress");
+        break;
+      case "done":
+        setTaskFilter("done");
+        break;
+      default:
+        setTaskFilter("all");
+    }
+  };
 
   return (
     <>
@@ -21,12 +41,11 @@ const Index = () => {
         <StatsCard />
 
         {/* Filter Bar */}
-        <TaskFilterBar />
+        <TaskFilterBar handleFilter={handleFilterButton} />
 
         {/* Task List */}
-        <div className="flex mt-10 gap-5 flex-wrap">
-          <TaskCard />
-        </div>
+
+        <TaskCard taskFilter={taskFilter} />
       </main>
       <footer className="bg-purple-700 text-white py-6">
         <div className="flex justify-center items-center">
