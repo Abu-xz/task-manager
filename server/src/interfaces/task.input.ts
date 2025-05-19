@@ -4,7 +4,7 @@ export interface TaskInput {
   title: string;
   description?: string;
   priority: "low" | "medium" | "high";
-  status: "pending" | "inprogress" | "done";
-  dueDate?: Date;
-  completed: boolean;
+  dueDate?: string;
+  // status: "pending" | "inprogress" | "done";
+  // completed: boolean;
 }

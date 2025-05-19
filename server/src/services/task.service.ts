@@ -9,6 +9,7 @@ export class TaskService {
   }
 
   async addTask(task: TaskInput) {
+    console.log('task data logged in service:', task)
     // business logic here - validation , filtering like that 
     return this.taskRepository.create(task);
   }

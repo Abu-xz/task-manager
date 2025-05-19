@@ -20,13 +20,14 @@ const taskSchema = new Schema<ITaskDocument>(
     },
     status: {
       type: String,
-       enum: ["pending", "inprogress", "done"],
-       default: 'pending',
+       enum: ["todo", "inprogress", "done"],
+       default: 'todo',
        required: false
     },
     dueDate: {
-      type: Date,
+      type: String,
        required: false,
+       default:new Date().toString()
     },
     completed: {
       type: Boolean,
