@@ -2,6 +2,7 @@ import type React from "react";
 import { useState } from "react";
 import type { TaskData } from "../interfaces/TaskData";
 import { toDateTimeLocal } from "../Helper/FormDateTime";
+import axios from "axios";
 
 interface TaskFormProp {
   closeModal: () => void;
@@ -39,32 +40,52 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
   };
 
   const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const utcDate = new Date(e.target.value);
+    const localInputValue = toDateTimeLocal(utcDate);
 
-    const utcDate = new Date(e.target.value)
-    const localInputValue = toDateTimeLocal(utcDate)
-    
     setFormData((prev) => ({
       ...prev,
-      dueDate:localInputValue,
+      dueDate: localInputValue,
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("form data: ", formData);
-    const {title} = formData;
-    if(!title){
-      console.log('Title is empty');
+  const handleSubmit = async () => {
+    // console.log("form data: ", formData);
+    const { title, dueDate } = formData;
+    if (!title) {
+      console.log("Title is empty");
       return;
     }
 
-    // create api and add new task
+    if(!dueDate){
+      const now = new Date();
+      now.setHours(23,59) // default to end of the day
 
-    setFormData({
-      title: "",
-      description: "",
-      priority: "low",
-      dueDate: "",
-    });
+      const formattedDate = toDateTimeLocal(now)
+       setFormData((prev) => ({
+      ...prev,
+      dueDate: formattedDate,
+    }));
+    }
+
+    console.log('formdata before submitting :', formData);
+
+    try {
+      const res = await axios.post("/api/task", formData);
+      console.log('response: ', res.data)
+    } catch (error) {
+      console.log("error ", error);
+    } finally {
+      // create api and add new task
+      closeModal()
+      setFormData({
+        title: "",
+        description: "",
+        priority: "low",
+        dueDate: "",
+      });
+
+    }
   };
 
   return (

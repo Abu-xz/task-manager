@@ -27,7 +27,6 @@ const taskSchema = new Schema<ITaskDocument>(
     dueDate: {
       type: String,
        required: false,
-       default:new Date().toString()
     },
     completed: {
       type: Boolean,
