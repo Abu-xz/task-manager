@@ -2,22 +2,35 @@ import { Check } from "lucide-react";
 import type { Task } from "../interfaces/Task";
 import { capitalize } from "../Helper/Capitalize";
 import type React from "react";
+import axios from "axios";
 
 type TaskItemProp = {
   task: Task;
 };
 
 const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
+
+  const toggleCompletedStatus = async (taskId: string, completed: boolean) => {
+    console.log('toggle button triggered: ', taskId, completed)
+    try {
+      const res = await axios.patch(`/api/task/${taskId}/toggle-completed`, {completed});
+      console.log("toggle updated data", res.data);
+    } catch (error) {
+      console.log('error: ',error);
+    }
+  };
+
   return (
     <div className="bg-white rounded-md p-4 min-h-28 shadow-md space-y-2">
       <div className="flex justify-between ">
         <div className="flex space-x-3 items-center ">
-        <button
-          className={`w-5 h-5 rounded-full border-2 border-gray-400 cursor-pointer flex items-center justify-center 
+          <button
+            className={`w-6 h-6 rounded-full border-2 border-gray-400 cursor-pointer flex items-center justify-center 
                   ${task.completed ? "bg-violet-400" : ""}`}
-        >
-          {task.completed && <Check size={14}></Check>}
-        </button>
+            onClick={() => toggleCompletedStatus(task._id, !task.completed)}
+          >
+            {task.completed && <Check size={14}></Check>}
+          </button>
           <h1 className="font-semibold text-md">{task.title}</h1>
         </div>
         <button
