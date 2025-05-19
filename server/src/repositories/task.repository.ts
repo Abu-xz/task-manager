@@ -2,7 +2,7 @@ import { ITaskDocument } from "../interfaces/task.document.js";
 import { TaskInput } from "../interfaces/task.input.js";
 import TaskModel from "../models/task.model.js";
 
- [
+[
   {
     title: "Finish project documentation",
     description: "Complete the README and setup guides",
@@ -42,7 +42,8 @@ import TaskModel from "../models/task.model.js";
     status: "in progress",
     dueDate: new Date("2025-05-19"),
     completed: false,
-  }]
+  },
+];
 
 export class TaskRepository {
   async findAll(): Promise<ITaskDocument[]> {
@@ -52,5 +53,9 @@ export class TaskRepository {
   async create(task: TaskInput): Promise<ITaskDocument> {
     const newTask = new TaskModel(task);
     return newTask.save();
+  }
+
+  async updateCompleteStatus(taskId: string, completed: boolean) {
+    return await TaskModel.findByIdAndUpdate(taskId, { completed }, { new: true });
   }
 }

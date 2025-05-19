@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { addNewTask, getAllTasks } from "../controllers/task.controller.js";
+import { addNewTask, getAllTasks, updateTaskCompleted } from "../controllers/task.controller.js";
 
 
 const router = Router();
 
 router.get('/', getAllTasks);
 router.post('/', addNewTask);
-
+router.patch('/:taskId/toggle-completed', updateTaskCompleted);
 
 export default router;
