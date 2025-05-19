@@ -4,7 +4,7 @@
 
   const StatsCard = () => {
     return (
-      <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+      <div className="grid gap-5 grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 ">
         <div className="bg-white rounded-md p-4 flex flex-col gap-5 shadow-sm hover:shadow-lg transition">
           <div className="flex justify-between">
             <h3 className="text-lg font-semibold text-gray-400">Total Task</h3>

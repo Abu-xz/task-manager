@@ -1,6 +1,7 @@
 import type React from "react";
 import { useState } from "react";
 import type { TaskData } from "../interfaces/TaskData";
+import { toDateTimeLocal } from "../Helper/FormDateTime";
 
 interface TaskFormProp {
   closeModal: () => void;
@@ -33,21 +34,37 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
   const handlePriorityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData((prev) => ({
       ...prev,
-      priority: e.target.value as 'low'| 'medium'| 'high'
-    }))
-  }
+      priority: e.target.value as "low" | "medium" | "high",
+    }));
+  };
+
+  const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const utcDate = new Date(e.target.value)
+    const localInputValue = toDateTimeLocal(utcDate)
+    
+    setFormData((prev) => ({
+      ...prev,
+      dueDate:localInputValue,
+    }));
+  };
 
   const handleSubmit = () => {
-    console.log('form data: ',formData)
-    
+    console.log("form data: ", formData);
+    const {title} = formData;
+    if(!title){
+      console.log('Title is empty');
+      return;
+    }
+
     // create api and add new task
 
-    setFormData({ 
-    title: "",
-    description: "",
-    priority: "low",
-    dueDate: "",
-  })
+    setFormData({
+      title: "",
+      description: "",
+      priority: "low",
+      dueDate: "",
+    });
   };
 
   return (
@@ -75,7 +92,7 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
           <label className="block text-sm font-semibold">Title</label>
           <input
             type="text"
-            className="p-3 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
+            className="p-2 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
             placeholder="Enter task title"
             value={formData.title}
             onChange={handleTitleChange}
@@ -87,7 +104,7 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
             Description (optional)
           </label>
           <textarea
-            className="p-3 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
+            className="p-2 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
             placeholder="Enter task description"
             value={formData.description}
             onChange={handleDescriptionChange}
@@ -97,7 +114,7 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
         <div className="flex flex-col gap-2">
           <label className="text-sm font-semibold ">Priority</label>
           <select
-            className="p-3 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
+            className="p-2 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
             value={formData.priority}
             onChange={handlePriorityChange}
           >
@@ -107,8 +124,19 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
           </select>
         </div>
 
-        {/* Future update to Add Calender and Time using date-fns*/}
+        <div className="space-y-2">
+          <label className="block text-sm font-semibold">
+            Due Date (optional)
+          </label>
+          <input
+            type="datetime-local"
+            className="p-2 w-full border-2  border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-none"
+            value={formData.dueDate}
+            onChange={handleDueDateChange}
+          />
+        </div>
 
+        {/* Cancel button */}
         <div className="flex justify-end gap-5">
           <button
             type="button"
@@ -117,6 +145,8 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
           >
             Cancel
           </button>
+
+          {/* Create Task button */}
           <button
             type="button"
             className="bg-violet-400 text-white px-3 py-1 rounded-md cursor-pointer hover:bg-violet-500 transition"
