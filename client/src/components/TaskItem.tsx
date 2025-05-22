@@ -4,18 +4,27 @@ import { capitalize } from "../Helper/Capitalize";
 import type React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useAppDispatch } from "../app/hooks";
+import { updateTask } from "../features/tasks/taskSlice";
 
 type TaskItemProp = {
   task: Task;
 };
 
 const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
+
+  const dispatch = useAppDispatch();
+  // const tasks = useAppSelector((state) => state.tasks.tasks);
+
   const toggleCompletedStatus = async (taskId: string, completed: boolean) => {
+
     try {
       const res = await axios.patch(
         `/api/task/${taskId}/toggle-update-status`,
         { completed }
       );
+      console.log('updated task',res.data);
+      dispatch(updateTask(res.data.updated))
       toast.success(res.data?.message);
     } catch (error) {
       console.log("error: ", error);
@@ -34,6 +43,7 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
         `/api/task/${taskId}/toggle-update-status`,
         { status: newStatus }
       );
+      dispatch(updateTask(res.data.updated))
       toast.success(res.data?.message);
     } catch (error) {
       console.log("error", error);
