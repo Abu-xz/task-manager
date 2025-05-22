@@ -16,16 +16,18 @@ export const addNewTask = async (req: Request, res: Response) => {
   }
 };
 
-export const updateTaskCompleted = async (req: Request, res: Response) => {
+
+export const toggleUpdateStatus = async (req: Request, res: Response) => {
   const { taskId } = req.params;
-  const { completed } = req.body;
+  const { status, completed } = req.body;
+
   try {
-
-    const updatedTask = await taskService.toggleCompletedTask(taskId, completed);
-    res.status(200).json({message: 'Task completed status updated', updatedTask});
-
+    const updated = await taskService.toggleUpdateTaskStatus(taskId, {
+      status,
+      completed,
+    });
+    res.json({ message: "Status updated successfully!", updated });
   } catch (error) {
-    res.status(500).json({message: 'Failed to update task status', error: error})
+    res.status(500).json({ message: "Failed to update status", error: error });
   }
-
 };

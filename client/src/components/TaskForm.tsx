@@ -71,11 +71,11 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
       const res = await axios.post("/api/task", dataToSubmit);
       console.log("response: ", res.data);
       toast.success("Task created successfully!");
+      closeModal();
     } catch (error) {
       console.log("error ", error);
     } finally {
       // create api and add new task
-      closeModal();
       setFormData({
         title: "",
         description: "",

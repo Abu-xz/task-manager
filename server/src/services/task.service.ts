@@ -14,9 +14,20 @@ export class TaskService {
     return this.taskRepository.create(task);
   }
 
-  async toggleCompletedTask(taskId: string, completed: boolean) {
+  async toggleUpdateTaskStatus(
+    taskId: string,
+    update: { status?: TaskInput["status"]; completed?: boolean }
+  ) {
+    if (
+      update.status &&
+      !["todo", "inprogress", "done"].includes(update.status)
+    ) {
+      const err = new Error("Invalid status value");
+      (err as any).statusCode = 400;
+      (err as any).message = 'Invalid status value';
 
-    // add validation
-    return this.taskRepository.updateCompleteStatus(taskId, completed);
+      throw err;
+    }
+    return this.taskRepository.updateTaskStatusAndCompletion(taskId, update);
   }
 }

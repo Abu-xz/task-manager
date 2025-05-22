@@ -3,20 +3,40 @@ import type { Task } from "../interfaces/Task";
 import { capitalize } from "../Helper/Capitalize";
 import type React from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type TaskItemProp = {
   task: Task;
 };
 
 const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
-
   const toggleCompletedStatus = async (taskId: string, completed: boolean) => {
-    console.log('toggle button triggered: ', taskId, completed)
     try {
-      const res = await axios.patch(`/api/task/${taskId}/toggle-completed`, {completed});
-      console.log("toggle updated data", res.data);
+      const res = await axios.patch(
+        `/api/task/${taskId}/toggle-update-status`,
+        { completed }
+      );
+      toast.success(res.data?.message);
     } catch (error) {
-      console.log('error: ',error);
+      console.log("error: ", error);
+      toast.error('Failed to update task')
+    }
+  };
+
+  const toggleStatusChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    taskId: string
+  ) => {
+    const newStatus = e.target.value;
+    console.log(newStatus)
+    try {
+      const res = await axios.patch(
+        `/api/task/${taskId}/toggle-update-status`,
+        { status: newStatus }
+      );
+      toast.success(res.data?.message);
+    } catch (error) {
+      console.log("error", error);
     }
   };
 
@@ -59,11 +79,12 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
         <select
           className="bg-gray-200 text-gray-600 p-1 rounded cursor-pointer "
           defaultValue={task.status}
+          onChange={(e) => toggleStatusChange(e, task._id)}
         >
           <option className="bg-green-300 text-green-700" value="todo">
             To Do
           </option>
-          <option className="bg-orange-200 text-orange-600" value="in progress">
+          <option className="bg-orange-200 text-orange-600" value="inprogress">
             In Progress
           </option>
           <option className="bg-gray-300 text-gray-600" value="done">
