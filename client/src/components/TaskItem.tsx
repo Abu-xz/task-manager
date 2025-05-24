@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, EllipsisVertical } from "lucide-react";
 import type { Task } from "../interfaces/Task";
 import { capitalize } from "../Helper/Capitalize";
 import type React from "react";
@@ -13,7 +13,6 @@ type TaskItemProp = {
 
 const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
   const dispatch = useAppDispatch();
-  // const tasks = useAppSelector((state) => state.tasks.tasks);
 
   const toggleCompletedStatus = async (taskId: string, completed: boolean) => {
     try {
@@ -57,7 +56,7 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
   return (
     <div className="bg-white rounded-md p-4 min-h-28 shadow-md space-y-2">
       <div className="flex justify-between ">
-        <div className="flex space-x-3 items-center ">
+        <div className="flex space-x-3 items-center">
           <button
             className={`w-6 h-6 rounded-full border-2 border-gray-400 cursor-pointer flex items-center justify-center 
                   ${task.completed ? "bg-violet-400" : ""}`}
@@ -67,17 +66,22 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
           </button>
           <h1 className="font-semibold text-md">{task.title}</h1>
         </div>
-        <button
-          className={`px-2 rounded-full text-xs font-medium ${
-            task.priority === "low"
-              ? "bg-cyan-200 text-cyan-700"
-              : task.priority === "medium"
-              ? "bg-yellow-200 text-amber-700"
-              : "bg-red-200 text-red-700"
-          }`}
-        >
-          {capitalize(task.priority)}
-        </button>
+        <div className="flex gap-2">
+          <button
+            className={`px-2 rounded-full text-xs font-medium max-h-6 ${
+              task.priority === "low"
+                ? "bg-cyan-200 text-cyan-700"
+                : task.priority === "medium"
+                ? "bg-yellow-200 text-amber-700"
+                : "bg-red-200 text-red-700"
+            }`}
+          >
+            {capitalize(task.priority)}
+          </button>
+          <button className="cursor-pointer">
+            <EllipsisVertical />
+          </button>
+        </div>
       </div>
       <p className="text-sm text-gray-500">{task.description || ""}</p>
       <div className="flex justify-between items-center">
