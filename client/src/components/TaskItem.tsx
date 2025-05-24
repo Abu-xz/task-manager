@@ -12,23 +12,21 @@ type TaskItemProp = {
 };
 
 const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
-
   const dispatch = useAppDispatch();
   // const tasks = useAppSelector((state) => state.tasks.tasks);
 
   const toggleCompletedStatus = async (taskId: string, completed: boolean) => {
-
     try {
       const res = await axios.patch(
         `/api/task/${taskId}/toggle-update-status`,
         { completed }
       );
-      console.log('updated task',res.data);
-      dispatch(updateTask(res.data.updated))
+      console.log("updated task", res.data);
+      dispatch(updateTask(res.data.updated));
       toast.success(res.data?.message);
     } catch (error) {
       console.log("error: ", error);
-      toast.error('Failed to update task')
+      toast.error("Failed to update task");
     }
   };
 
@@ -37,16 +35,22 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
     taskId: string
   ) => {
     const newStatus = e.target.value;
-    console.log(newStatus)
+    console.log(newStatus);
     try {
       const res = await axios.patch(
         `/api/task/${taskId}/toggle-update-status`,
         { status: newStatus }
       );
-      dispatch(updateTask(res.data.updated))
+      dispatch(updateTask(res.data.updated));
       toast.success(res.data?.message);
     } catch (error) {
-      console.log("error", error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Something went wrong!");
+        console.log("Axios error:", error.response?.data);
+      } else {
+        toast.error("An unexpected error occurred.");
+        console.log("Unexpected error:", error);
+      }
     }
   };
 
