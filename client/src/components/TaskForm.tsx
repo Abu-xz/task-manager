@@ -4,6 +4,7 @@ import type { TaskData } from "../interfaces/TaskData";
 import { toDateTimeLocal } from "../Helper/FormDateTime";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { CircleX } from "lucide-react";
 
 interface TaskFormProp {
   closeModal: () => void;
@@ -95,10 +96,10 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
             <h1 className="text-xl font-semibold">Create New Task</h1>
             <button
               type="button"
-              className="text-xl font-bold text-red-500 cursor-pointer hover:scale-120 transition"
+              className="text-xl font-bold text-red-500 cursor-pointer transition"
               onClick={closeModal}
             >
-              x
+              <CircleX/>
             </button>
           </div>
           <h2 className="text-gray-400 font-medium text-sm">
