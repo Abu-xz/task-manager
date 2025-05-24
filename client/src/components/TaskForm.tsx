@@ -5,12 +5,17 @@ import { toDateTimeLocal } from "../Helper/FormDateTime";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { CircleX } from "lucide-react";
+import { useAppDispatch } from "../store/hooks";
+import { addTask } from "../features/tasks/taskSlice";
 
 interface TaskFormProp {
   closeModal: () => void;
 }
 
 const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
+
+  const dispatch = useAppDispatch();
+
   const [formData, setFormData] = useState<TaskData>({
     title: "",
     description: "",
@@ -71,10 +76,12 @@ const TaskForm: React.FC<TaskFormProp> = ({ closeModal }) => {
     try {
       const res = await axios.post("/api/task", dataToSubmit);
       console.log("response: ", res.data);
+      dispatch(addTask(res.data.task))
       toast.success("Task created successfully!");
       closeModal();
     } catch (error) {
       console.log("error ", error);
+      toast.error("Failed to create task!");
     } finally {
       // create api and add new task
       setFormData({
