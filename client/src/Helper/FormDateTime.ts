@@ -1,4 +1,4 @@
-export const toDateTimeLocal = (date: Date) => {
+export const toDateTimeLocal = (date: Date): string => {
     const pad = (n: number) => n.toString().padStart(2, "0");
 
     const year = date.getFullYear();

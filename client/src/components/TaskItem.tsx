@@ -5,14 +5,18 @@ import type React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../store/hooks";
-import { updateTask } from "../features/tasks/taskSlice";
+import { updateTaskStatus } from "../features/tasks/taskSlice";
+import { useState } from "react";
+import OptionDropDown from "../components/ui/OptionDropDown";
 
 type TaskItemProp = {
   task: Task;
 };
 
 const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
+
   const dispatch = useAppDispatch();
+  const [openOptions, setOpenOptions] = useState(false);
 
   const toggleCompletedStatus = async (taskId: string, completed: boolean) => {
     try {
@@ -21,7 +25,7 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
         { completed }
       );
       console.log("updated task", res.data);
-      dispatch(updateTask(res.data.updated));
+      dispatch(updateTaskStatus(res.data.updated));
       toast.success(res.data?.message);
     } catch (error) {
       console.log("error: ", error);
@@ -40,7 +44,7 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
         `/api/task/${taskId}/toggle-update-status`,
         { status: newStatus }
       );
-      dispatch(updateTask(res.data.updated));
+      dispatch(updateTaskStatus(res.data.updated));
       toast.success(res.data?.message);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -66,7 +70,7 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
           </button>
           <h1 className="font-semibold text-md">{task.title}</h1>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 relative items-center">
           <button
             className={`px-2 rounded-full text-xs font-medium max-h-6 ${
               task.priority === "low"
@@ -78,9 +82,21 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
           >
             {capitalize(task.priority)}
           </button>
-          <button className="cursor-pointer">
-            <EllipsisVertical />
+          <div className="relative">
+
+          <button 
+            className="cursor-pointer p-1"
+            onClick={() => setOpenOptions(!openOptions)}
+            aria-label="More options"
+          >
+            <EllipsisVertical className="w-4 h-4" />
           </button>
+          {openOptions && 
+          <div className="absolute z-10 right-0 mt-1">
+            <OptionDropDown task={task}  updateDropDownStatus={() => setOpenOptions(!openOptions)}/>
+          </div>
+           }
+          </div>
         </div>
       </div>
       <p className="text-sm text-gray-500">{task.description || ""}</p>
