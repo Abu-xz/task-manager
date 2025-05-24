@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { Task } from "../interfaces/Task";
 import TaskItem from "./TaskItem";
 import { setTasks } from "../features/tasks/taskSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 type TaskCardProp = {
   taskFilter: string;

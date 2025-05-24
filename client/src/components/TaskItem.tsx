@@ -4,7 +4,7 @@ import { capitalize } from "../Helper/Capitalize";
 import type React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch } from "../store/hooks";
 import { updateTask } from "../features/tasks/taskSlice";
 
 type TaskItemProp = {
