@@ -22,14 +22,14 @@ const TaskCard: React.FC<TaskCardProp> = ({ taskFilter }) => {
       const fetchTasks = async () => {
         const res = await axios.get<Task[]>("/api/task");
         dispatch(setTasks(res.data));
+        setIsLoading(false)
       };
-
+      
       fetchTasks();
-
+      
     } catch (error) {
+      setIsLoading(true)
       console.log('Failed to fetch task', error)
-    }finally{
-      setIsLoading(false)
     }
 
   }, [dispatch]);
@@ -42,7 +42,7 @@ const TaskCard: React.FC<TaskCardProp> = ({ taskFilter }) => {
     }
   }, [taskList, taskFilter]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <h1>Loading data...</h1>;
 
   return (
     <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">

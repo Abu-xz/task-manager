@@ -113,6 +113,7 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
         <select
           className="bg-gray-200 text-gray-600 p-1 rounded cursor-pointer "
           defaultValue={task.status}
+          value={task.status}
           onChange={(e) => toggleStatusChange(e, task._id)}
         >
           <option className="bg-green-300 text-green-700" value="todo">
