@@ -86,9 +86,9 @@ const TaskUpdateForm: React.FC<updateFormProp> = ({
     try {
       const res = await axios.put(`/api/task/${task._id}`, dataToSubmit);
       console.log("response: ", res.data);
-
+      
       console.log(dataToSubmit);
-      dispatch(updateTask(dataToSubmit));
+      dispatch(updateTask(res.data.updatedTask));
       toast.success("Task updated successfully!");
     } catch (error) {
       console.log("error ", error);
