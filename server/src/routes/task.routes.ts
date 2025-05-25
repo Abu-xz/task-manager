@@ -16,5 +16,6 @@ router.patch(
   "/:taskId/toggle-update-status",
   taskController.toggleUpdateStatus
 );
+router.delete('/:taskId', taskController.removeTask)
 
 export default router;

@@ -40,7 +40,21 @@ export class TaskController {
 
     if(updatedTask){
       res.status(200).json({message: 'Task updated successfully!', updatedTask});
+    }else{
+      res.status(500).json({ message: 'Failed to update task' });
     }
-    res.status(500).json({ message: 'Failed to update task' });
   };
+
+  removeTask = async (req: Request, res: Response) => {
+    const {taskId} = req.params;
+    const deleted = await this.taskService.removeTask(taskId);
+    
+    if(deleted){
+      res.status(203).json({message: 'Task removed successfully!'});
+    }else{
+      res.status(500).json({message: 'Failed to remove task!'});
+    }
+
+
+  }
 }

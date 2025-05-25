@@ -33,8 +33,12 @@ export class TaskService {
   }
 
   async updateTask(taskId: string, task: TaskInput): Promise<ITaskDocument| null> {
-    // Add validation like check task id is valid or not etc...
+    // Add validation 
     return this.taskRepository.updateTask(taskId, task)
+  }
+
+  async removeTask(taskId: string) {
+    return this.taskRepository.removeTask(taskId);
   }
 }
 

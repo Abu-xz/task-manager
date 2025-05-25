@@ -39,4 +39,9 @@ export class TaskRepository {
   async updateTask(taskId: string, task: TaskInput): Promise<ITaskDocument | null> {
     return TaskModel.findByIdAndUpdate(taskId, task, {new: true});
   }
+
+  async removeTask(taskId: string) {
+    // add validation for object id
+    return TaskModel.findByIdAndDelete(taskId);
+  }
 }
