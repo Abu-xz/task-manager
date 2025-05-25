@@ -2,7 +2,7 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import type { TaskData } from "../interfaces/TaskData";
 import { toDateTimeLocal } from "../Helper/FormDateTime";
-// import axios from "axios";
+import axios from "axios";
 import { toast } from "react-toastify";
 import { CircleX } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -84,8 +84,8 @@ const TaskUpdateForm: React.FC<updateFormProp> = ({
     }
     const dataToSubmit = { ...task, ...formData };
     try {
-      // const res = await axios.put("/api/task", dataToSubmit);
-      // console.log("response: ", res.data);
+      const res = await axios.put(`/api/task/${task._id}`, dataToSubmit);
+      console.log("response: ", res.data);
 
       console.log(dataToSubmit);
       dispatch(updateTask(dataToSubmit));

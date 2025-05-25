@@ -4,7 +4,7 @@ import TaskModel from "../models/task.model.js";
 
 export class TaskRepository {
   async findAll(): Promise<ITaskDocument[]> {
-    return await TaskModel.find();
+    return TaskModel.find();
   }
 
   async create(task: TaskInput): Promise<ITaskDocument> {
@@ -15,26 +15,28 @@ export class TaskRepository {
   async updateTaskStatusAndCompletion(
     taskId: string,
     update: { status?: TaskInput["status"]; completed?: boolean }
-  ) {
+  ): Promise<ITaskDocument | null> {
+
     const updates: Pick<TaskInput, "status" | "completed"> = {};
 
-   
-  if (update.status) {
-    updates.status = update.status;
-    if (update.status === "done") {
-      updates.completed = true;
-    } else if (update.status === "todo" || update.status === "inprogress") {
-      updates.completed = false;
+    if (update.status) {
+      updates.status = update.status;
+      if (update.status === "done") {
+        updates.completed = true;
+      } else if (update.status === "todo" || update.status === "inprogress") {
+        updates.completed = false;
+      }
     }
+
+    if (typeof update.completed === "boolean" && !update.status) {
+      updates.completed = update.completed;
+      updates.status = update.completed ? "done" : "todo";
+    }
+
+    return TaskModel.findByIdAndUpdate(taskId, updates, { new: true });
   }
 
-  if (typeof update.completed === "boolean" && !update.status) {
-    updates.completed = update.completed;
-    updates.status = update.completed ? "done" : "todo";
+  async updateTask(taskId: string, task: TaskInput): Promise<ITaskDocument | null> {
+    return TaskModel.findByIdAndUpdate(taskId, task, {new: true});
   }
-
-    return await TaskModel.findByIdAndUpdate(taskId, updates, {new: true})
-  }
-
-
 }

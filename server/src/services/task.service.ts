@@ -1,8 +1,9 @@
+import { ITaskDocument } from "../interfaces/task.document.js";
 import { TaskInput } from "../interfaces/task.input.js";
 import { TaskRepository } from "../repositories/task.repository.js";
 
 export class TaskService {
-  constructor(private readonly taskRepository = new TaskRepository()) {}
+  constructor(private taskRepository: TaskRepository) {}
 
   async getTasks() {
     return this.taskRepository.findAll();
@@ -10,7 +11,7 @@ export class TaskService {
 
   async addTask(task: TaskInput) {
     console.log("task data logged in service:", task);
-    // business logic here - validation , filtering like that
+    // business logic here like validation , filtering
     return this.taskRepository.create(task);
   }
 
@@ -30,4 +31,10 @@ export class TaskService {
     }
     return this.taskRepository.updateTaskStatusAndCompletion(taskId, update);
   }
+
+  async updateTask(taskId: string, task: TaskInput): Promise<ITaskDocument| null> {
+    // Add validation like check task id is valid or not etc...
+    return this.taskRepository.updateTask(taskId, task)
+  }
 }
+

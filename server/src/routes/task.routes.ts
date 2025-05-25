@@ -1,14 +1,20 @@
 import { Router } from "express";
-import {
-  addNewTask,
-  getAllTasks,
-  toggleUpdateStatus,
-} from "../controllers/task.controller.js";
+import { TaskController } from "../controllers/task.controller.js";
+import { TaskService } from "../services/task.service.js";
+import { TaskRepository } from "../repositories/task.repository.js";
 
 const router = Router();
 
-router.get("/", getAllTasks);
-router.post("/", addNewTask);
-router.patch("/:taskId/toggle-update-status", toggleUpdateStatus);
+const taskRepository = new TaskRepository();
+const taskService = new TaskService(taskRepository);
+const taskController = new TaskController(taskService);
+
+router.get("/", taskController.getAllTasks);
+router.post("/", taskController.addNewTask);
+router.put("/:taskId", taskController.updateTask);
+router.patch(
+  "/:taskId/toggle-update-status",
+  taskController.toggleUpdateStatus
+);
 
 export default router;
