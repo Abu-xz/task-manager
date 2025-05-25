@@ -11,7 +11,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <ToastContainer position="bottom-right"/>
+        <ToastContainer position="bottom-right" theme="dark"/>
         <PersistGate loading={null} persistor={persistor}>
           <App />
         </PersistGate>

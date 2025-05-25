@@ -34,8 +34,3 @@ Modular, clean folder structure
 
 Easy to scale
 
-
-<!---------------------------------------------> -->
-
-update stat with redux and create action creators
-create api binding before that add validation

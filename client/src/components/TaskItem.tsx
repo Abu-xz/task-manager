@@ -92,7 +92,7 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
             <EllipsisVertical className="w-4 h-4" />
           </button>
           {openOptions && 
-          <div className="absolute z-10 right-0 mt-1">
+          <div className="absolute z-10 right-0 ">
             <OptionDropDown task={task}  updateDropDownStatus={() => setOpenOptions(!openOptions)}/>
           </div>
            }
@@ -112,7 +112,6 @@ const TaskItem: React.FC<TaskItemProp> = ({ task }) => {
         </span>
         <select
           className="bg-gray-200 text-gray-600 p-1 rounded cursor-pointer "
-          defaultValue={task.status}
           value={task.status}
           onChange={(e) => toggleStatusChange(e, task._id)}
         >
